@@ -1,0 +1,15 @@
+{
+  "name": "@traversal/api-explorer",
+  "version": "0.1.0",
+  "description": "Autonomous REST API exploratory testing plugin for Claude Code — skills only, no runtime code",
+  "files": [
+    ".claude"
+  ],
+  "keywords": [
+    "claude-code",
+    "claude-plugin",
+    "api-testing",
+    "exploratory-testing"
+  ],
+  "license": "MIT"
+}
