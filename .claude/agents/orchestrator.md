@@ -58,7 +58,24 @@ Create or overwrite `test-ledger.json` in the current directory:
 - `medium` — parameterized reads (GET with path params), search/filter endpoints
 - `low` — static reads (GET with no params), metadata endpoints
 
-### 3. Create issues file
+### 3. Initialize session memory
+
+Create `session-memory.json` if it doesn't exist (preserve existing file if it does — a previous run may have useful IDs):
+
+```json
+{
+  "auth": {
+    "header": "<auth_header or empty string>",
+    "user_id": "",
+    "username": ""
+  },
+  "created_resources": [],
+  "known_ids": {},
+  "notes": ""
+}
+```
+
+### 4. Create issues file
 
 If `issues.md` does not exist, create it with:
 ```
@@ -66,11 +83,11 @@ If `issues.md` does not exist, create it with:
 
 ```
 
-### 4. Group endpoints for parallel exploration
+### 5. Group endpoints for parallel exploration
 
 Split endpoints into groups of 3–5, prioritizing high-priority endpoints first. Each group becomes one explorer fork.
 
-### 5. Spawn explorer forks
+### 6. Spawn explorer forks
 
 For each group, spawn a fork agent with this prompt:
 
@@ -78,15 +95,17 @@ For each group, spawn a fork agent with this prompt:
 You are an API explorer agent. Use the explorer skill instructions.
 
 Ledger file: test-ledger.json
+Session memory: session-memory.json
 Issues file: issues.md
 Endpoints to explore: <list of "METHOD /path" keys>
 
 Read the ledger for base_url, auth_header, and endpoint details before starting.
+Read session-memory.json for known_ids to use in IDOR tests.
 ```
 
 Spawn all forks in a single Agent tool call (parallel).
 
-### 6. Generate the final report
+### 7. Generate the final report
 
 After all forks complete, invoke the `coverage-report` skill.
 

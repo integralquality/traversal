@@ -15,6 +15,9 @@ Before starting, read `test-ledger.json` to get:
 - `session.auth_header` — authentication header (may be empty)
 - `endpoints` — full endpoint details for your assigned keys
 
+Read `session-memory.json` to get:
+- `known_ids` — resource IDs from prior requests, keyed by path template (e.g. `"GET /users/{id}": ["42", "99"]`). Use these for IDOR test charters when the path has a resource ID parameter.
+
 ## For each assigned endpoint
 
 Work through these steps in order.
@@ -125,7 +128,18 @@ Number issues sequentially. Read `issues.md` first to find the current highest I
 
 Increment `session.total_issues` and `endpoints["METHOD /path"].issue_count` in the ledger.
 
-### Step 6 — Mark as explored
+### Step 6 — Update session memory
+
+After a successful POST (201 response):
+1. Extract the resource ID from the response. Look for the first field named `id`, `uuid`, `_id`, or any field whose value is a UUID or integer at the root level.
+2. Append to `session-memory.json`:
+   - `created_resources`: add `{ "method": "POST", "path": "<path>", "id": "<id>", "cleanup": "DELETE <path_with_id>", "response_summary": "<key fields>" }`
+   - `known_ids["<GET path template>"]`: append the ID (e.g. if POST /users → 201 with id=123, add to `known_ids["GET /users/{id}"]`)
+3. If the response contains a user object with an email or username and `session-memory.json` has no `user_id` set, populate it.
+
+Do this for every POST/PUT that returns 2xx with a body containing an identifiable resource ID.
+
+### Step 7 — Mark as explored
 
 Update the ledger: set status to `"explored"`. Increment `session.total_requests` by the number of requests made.
 
