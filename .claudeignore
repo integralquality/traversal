@@ -1,0 +1,5 @@
+# exploration output files — not plugin source
+test-ledger.json
+session-memory.json
+issues.md
+coverage-report.md

@@ -1,0 +1,7 @@
+.claude/settings.local.json
+
+# exploration output — generated per project, not part of the plugin
+test-ledger.json
+session-memory.json
+issues.md
+coverage-report.md

@@ -2,6 +2,7 @@
 name: orchestrator
 description: Main API exploration orchestrator. Reads an OpenAPI spec, bootstraps the test ledger, and spawns parallel explorer agents per endpoint group.
 tools: [Read, Write, Edit, Bash, Agent]
+memory: project
 ---
 
 # API Exploration Orchestrator
